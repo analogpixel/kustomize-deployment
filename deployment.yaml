@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    kuma.io/sidecar-injection: enabled
+    kuma.io/mesh: default
+  name: app-space
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: sample-app
+  name: sample-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-app
+  strategy: {}
+  template:
+    metadata:
+      annotations:        
+      #'consul.hashicorp.com/connect-inject': 'true'
+      #  'consul.hashicorp.com/connect-service-upstreams': 'sample-app:8097'
+      creationTimestamp: null
+      labels:
+        app: sample-app
+    spec:
+      containers:
+      - image: busybox
+        name: sample-app-image
+       #       fieldPath: metadata.name
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - mountPath: "/etc/my-config.cfg"
+            name: my-config-map
+            subPath: sample-file.txt
+        env:
+        - name: MATT-TEST
+          value: "yes"
+        - name: APP-NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+ 
+      volumes:
+      - configMap:
+          name: my-config-map
+        name: my-config-map
+

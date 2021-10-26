@@ -1,0 +1,15 @@
+kind: Kustomization
+
+resources:
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+namespace: app-space
+
+configMapGenerator:
+- name: my-config-map
+  files:
+    - files/sample-file.txt
+

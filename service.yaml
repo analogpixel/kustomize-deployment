@@ -1,0 +1,14 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-service
+  annotations:
+    8097.service.kuma.io/protocol: http
+spec:
+  selector:
+    app: sample-app
+  ports:
+  - targetPort: 80 # port running on container
+    port: 8097 # service port
+
