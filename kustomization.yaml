@@ -3,8 +3,9 @@ kind: Kustomization
 resources:
   - configmap.yaml
   - deployment.yaml
-  - service.yaml
-  - ingress.yaml
+    # these don't change with deployments
+    #  - service.yaml
+    #  - ingress.yaml
 
 namespace: app-space
 
